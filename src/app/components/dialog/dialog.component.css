@@ -1,0 +1,9 @@
+.success,  .success + div > p {
+    color: #5cb85c;
+    font-weight: bold;
+}
+
+.error, .error + div > p {
+    color: #d9534f;
+    font-weight: bold;
+}

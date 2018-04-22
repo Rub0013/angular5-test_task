@@ -1,0 +1,59 @@
+<mat-card class="container">
+    <mat-card-header>
+        <mat-card-title class="header-title">Add User</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="userDataForm" #formDir="ngForm" (submit)="handleSubmit()" >
+            <div class="form-field">
+                <mat-form-field>
+                    <input
+                            matInput
+                            placeholder="First name"
+                            formControlName="first_name">
+                    <mat-error *ngIf="!userDataForm.get('first_name').valid">Field is required!</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-field">
+                <mat-form-field>
+                    <input
+                            matInput
+                            placeholder="Last name"
+                            formControlName="last_name">
+                    <mat-error *ngIf="!userDataForm.get('last_name').valid">Field is required!</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-field"
+                 formArrayName="emails"
+                 *ngFor="let email of userDataForm.get('emails')['controls']; let i = index">
+                <mat-form-field>
+                    <input
+                            (keypress)="handleChange($event, i, 'email')"
+                            (past)="handleChange($event, i, 'email')"
+                            matInput
+                            [placeholder]="i != 0 ? 'Add another email (Optional)' : 'Enter your email'"
+                            [formControlName]="i">
+                    <mat-error *ngIf="(!email.valid && i === 0) || (!email.valid && email.value.length > 0)">
+                        {{email.hasError('required') ? 'Field is required!' : 'Not valid email address!'}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-field"
+                 formArrayName="phone_numbers"
+                 *ngFor="let phone_number of userDataForm.get('phone_numbers')['controls']; let i = index">
+                <mat-form-field>
+                    <input
+                            (keypress)="handleChange($event, i, 'phone_number')"
+                            (past)="handleChange($event, i, 'phone_number')"
+                            matInput
+                            [placeholder]="i != 0 ? 'Add another phone number (Optional)' : 'Enter your phone number'"
+                            [formControlName]="i">
+                    <mat-error *ngIf="(!phone_number.valid && i === 0) || (!phone_number.valid && phone_number.value.length > 0)">
+                        {{phone_number.hasError('required') ? 'Field is required!' : 'Not valid phone number, must be at least 9 symbols and contain only numbers!'}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <button type="submit" mat-button color="primary">Submit</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+
